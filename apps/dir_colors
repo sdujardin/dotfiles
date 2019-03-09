@@ -40,6 +40,7 @@ TERM screen-256color
 TERM st
 TERM st-256color
 TERM terminator
+TERM termite
 TERM tmux*
 TERM tmux-256color
 TERM vt100
