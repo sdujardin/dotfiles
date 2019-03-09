@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+eval "$(dircolors -b "$HOME"/.dir_colors)"
+#eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/shims:${PATH}"
+export RBENV_SHELL=bash
+alias ls='ls --color=auto'
+alias ping='ping -O'
+
+bupc() {
+    up
+    pip freeze --local \
+    | grep -v '^\-e' \
+    | cut -d = -f 1  \
+    | xargs -n1 sudo -H pip install -U
+    gem update --system
+    gem update
+    rbenv rehash
+}
+
+pbcopy() {
+    xclip -selection clipboard
+}
+
+pbpaste() {
+    xclip -selection clipboard -o
+}

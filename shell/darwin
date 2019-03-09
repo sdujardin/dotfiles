@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+flushdns() {
+    dscacheutil -flushcache
+    sudo killall -HUP mDNSResponder
+    say flushed
+}
+
+bupc() {
+    brew update
+    brew upgrade
+    brew cleanup
+    softwareupdate -i -a
+    pip freeze --local \
+    | grep -v '^\-e' \
+    | cut -d = -f 1  \
+    | xargs -n1 pip install -U
+    gem update --system
+    gem update
+}
+
+up() {
+    z tool
+    ./cybsecurity
+    say -v thomas updated
+}
+
+# shellcheck disable=1091
+. /usr/local/share/bash-completion/bash_completion

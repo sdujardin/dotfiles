@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Copyright (C) 2016 barbUk
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
+host="$*"
+
+set -e -o nounset
+
+readonly fzf="fzf --select-1 --height 30% --tiebreak=begin,index --reverse --inline-info +s"
+
+if [ -z "$host" ]; then
+    host="$(give_me_hostname ssh | $fzf)"
+fi
+
+if [ "$(uname)" = "Darwin" ]; then
+    resolve="$(dscacheutil -q host -a name "$host" | wc -l)"
+    browser='/usr/bin/open -a "/Applications/Google Chrome.app"'
+else
+    resolve="$(getent hosts "$host" | wc -l)"
+    browser=google-chrome-stable
+fi
+
+if [ $resolve = 0 ]; then
+    host="$(give_me_hostname ssh | $fzf --query="$host")"
+fi
+
+url="${MONITORING_URL}$host"
+
+eval "$browser" "$url"

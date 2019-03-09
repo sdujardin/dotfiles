@@ -1,0 +1,150 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+let g:sneak#s_next = 1
+
+set updatetime=250
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" Options diverses
+set hidden               " hides buffer
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
+set wildignore=*.swp,*.bak,*.pyc,*.class
+set title                " change the terminal's title
+"set visualbell           " don't beep
+set noerrorbells         " don't beep
+" change the mapleader from \ to ,
+let mapleader=","
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" Affichage
+set ruler               " Position du fichier tjs affichée
+set showmode            " Montre le mode actuel
+set number 		" Afficher les numéros de ligne
+syntax on		" Coloration syntaxique
+set wrap		" Pas de wordwrap
+set showmatch		" Donne parenthèse correspondante
+set showcmd             " Donne commande incomplète
+set autoindent		" Indentation auto
+set copyindent          " Copier l'indentation existante
+set shiftround          " use multiple of shiftwidth when indenting with '<' and '>'
+set showmatch           " set show matching parenthesis
+set ignorecase          " ignore case when searching
+set smartcase           " ignore case if search pattern is all lowercase,
+set smarttab            " insert tabs on the start of a line
+set hlsearch		" Surligne les résultats de recherche
+set incsearch           " Recherche incrémentale
+set expandtab		" Utilise  plutot que
+set softtabstop=4	" Largeur de tab
+set sta                 " Smart tabs
+set shiftwidth=4	" Largeur d'indentation
+set ru                  " Position dans le fichier donnée
+set hlg=en              " Langue de l'aide : english
+set mousemodel=popup    " Affiche un popup au clic droit
+set showtabline=2       " Affiche tout le temps la ligne des tabs
+set numberwidth=5       " Nombre de colonnes que prend les numéros de lignes
+set pastetoggle=<F2>    " pour eviter de faire de la cascade
+set ffs=unix,dos
+"set paste
+cmap w!! w !sudo tee % >/dev/null
+cmap hex %!xxd
+" Options du GUI
+set guioptions=ecimMgrp
+
+set statusline+=%#warningmsg#
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_balloons = 1
+
+let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+
+" Options internes
+set ul=100              " Niveaux d'annulation
+set mouse=a             " Utiliser la souris partout
+
+if v:version < 800
+    set t_Co=256           " Terminaux à 256 couleurs
+    colorscheme desert
+    let g:airline_theme='base16_tomorrow'
+else
+    set termguicolors
+
+endif
+
+" trailing white space
+match ErrorMsg '\s\+$'
+
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
+nnoremap <silent> <Leader>rts :call TrimWhiteSpace()<CR>
+
+" Navigation entre les buffers
+map <C-right> <ESC>:bn<CR>
+map <C-left> <ESC>:bp<CR>
+
+imap sdf <ESC>
+" To save, ctrl-s.
+map <c-s> <Esc>:w<CR>a
+map <C-s> <ESC>:w<CR>
+imap <C-s> <ESC>:w<CR>a
+" Options pour affichage
+
+" Pour avoir tous les buffers en tabs (mauvais pour :help et autres windows)
+"au BufAdd,BufNewFile,BufRead * nested tab sball
+nmap <silent> ,/ :nohlsearch<CR>
+" Complete options (disable preview scratch window)
+set completeopt=menu,menuone,longest
+" Limit popup menu height
+set pumheight=15
+
+" Options de complétion générale
+set completeopt=menu,longest " Options de completion
+
+" Wildmenu (pour faire un petit menu sympa quand on tape une commande VIM)
+set wildmenu
+set wildmode=longest:full
+
+" reprendre à la dernière ligne
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" detect nagios config
+autocmd BufNewFile,BufRead */nagios*/*.{cache,cfg,jinja2} setlocal filetype=nagios
+
+" soa serial
+:nnoremap <F8> /\<\d\{10}\><CR>ce<C-r>=strftime("%Y%m%d00")<CR><Esc>:echo @"<CR>
+
+nnoremap rm :call delete(expand('%')) \| bdelete! <CR>
+nnoremap <leader>wd :write\|bdelete <CR>
+nnoremap <leader>x :bdelete<cr>
+
+" use - as a switch key
+let g:switch_mapping = "-"
+
+nnoremap ;; m`A;<Esc>``
+nnoremap ,, m`A,<Esc>``
+nnoremap ## m`I#<Esc>``
+nnoremap <leader>' di'
+nnoremap <leader>" di"
+nnoremap <Leader>q" ciw""<Esc>P
+nnoremap <Leader>q' ciw''<Esc>P
+nnoremap <Leader>qd daW"=substitute(@@,"'\\\|\"","","g")<CR>P
+
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+alias bmux='tmux -2 attach-session -t sdujardin'
+alias pip-update="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 sudo -H pip install -U"
+
+# enable color support of ls and also add handy aliases
+alias dir='dir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias bzgrep='bzgrep --color=auto'
+alias zgrep='zgrep --color=auto'
+
+# some more ls aliases
+alias ll='ls -lha'
+alias l='ls -lh'
+
+alias q='exit'
+alias ss='netstat -tanpu'
+alias _="sudo -s"
+alias c='clear'
+alias o='xdg-open'
+
+alias tmux='tmux -2'
+alias s='ssh_connect'
+alias n='open_monitoring'
+alias dsh-update='(cd ~/.dsh && git pull && make clean && make all && make all)'
+alias pss='ps --ppid 2 -p 2 --deselect awfo user,pid,ppid,pcpu,pmem,vsz,rss,tty,stat,start,time,cgroup,command:220'
+alias local-timezone='curl -s https://ipapi.co/timezone'
+alias set-local-timezone='timedatectl set-timezone $(curl -s https://ipapi.co/timezone)'
+alias set-france-timezone='timedatectl set-timezone Europe/Paris'
+alias set-maurice-timezone='timedatectl set-timezone Indian/Mauritius'

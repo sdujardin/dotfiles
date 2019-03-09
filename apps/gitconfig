@@ -1,0 +1,29 @@
+[user]
+	name = Stéphane Dujardin
+	useConfigOnly = true
+	email = sdujardin@gmail.com
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	quick-stats = ! /usr/bin/git-quick-stats
+[color]
+	ui = true
+[push]
+	default = simple
+[mergetool]
+	keepBackup = false
+[pull]
+	rebase = true
+[diff]
+	indentHeuristic = on
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
