@@ -21,4 +21,6 @@ else
   . "$dot_dir/shell/keychain"
 fi
 
+eval "$(lua $dot_dir/modules/z.lua/z.lua --init bash enhanced once)"
+
 export TERM=xterm-256color
