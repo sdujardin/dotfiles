@@ -26,4 +26,4 @@ up() {
 }
 
 # shellcheck disable=1091
-. /usr/local/share/bash-completion/bash_completion
+. /usr/local/etc/bash_completion
